@@ -18,7 +18,6 @@ Vagrant.configure(2) do |config|
 
     sudo apt-get update
     sudo apt-get -y upgrade
-    #sudo apt-get -y install openjdk-11-jdk
 
     sudo apt-get install -y git python-pip
 
@@ -47,6 +46,8 @@ Vagrant.configure(2) do |config|
   SHELL
 
   config.vm.provision "Copy user's git config", type:'file', source: '~/.gitconfig', destination: '.gitconfig'
+
+  config.vm.provision "Install dependencies", type: 'shell', inline: 'pip install requests'
 
   config.vm.network "forwarded_port", guest: 80, host: 80, host_ip: "0.0.0.0", id: "nginx"
   config.vm.network "forwarded_port", guest: 8080, host: 8080, host_ip: "0.0.0.0", id: "spring_boot"
